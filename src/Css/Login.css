@@ -67,7 +67,7 @@
 .login__register{
     margin-top: 1rem;
 }
-.login__register >p >a{
+.login__register >p >span{
     cursor: pointer;
     color:lightskyblue
 }
@@ -80,6 +80,7 @@
     outline:3px solid gray;
 }
 .login__form__container > button {
+    cursor: pointer;
     background: linear-gradient(to right, #59f9b7,#66feea);
     align-self: center;
     font-size: 1.2rem;
