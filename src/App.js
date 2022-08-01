@@ -1,9 +1,14 @@
-import "./App.css";
+import "./Css/App.css";
+import ChatRoom from "./Components/ChatRoom";
+import Login from "./Components/Login";
 function App() {
-  return (
+  const user = false;
+  return user ? (
     <div className="App">
-      <h1>This is my app</h1>
+      <ChatRoom />
     </div>
+  ) : (
+    <Login />
   );
 }
 
