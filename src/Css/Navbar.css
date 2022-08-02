@@ -1,0 +1,31 @@
+.navbar{
+    padding-left: 1rem;
+    padding-right: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100vw;
+    height: 70px;
+    color: white;
+    border-bottom: 1px solid  #505050;
+    
+}
+
+.nav__links > button {
+    text-decoration: none;
+    border: none;
+    outline: none;
+    width: 5rem;
+    height: 40px;
+    border-radius: .5rem;
+    color:Black;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    background: linear-gradient(to right, #59f9b7,#66feea);
+    transition: all 0.05s ease-in-out;
+}
+
+.nav__links > button:hover{
+    transform: scale(1.1);
+}

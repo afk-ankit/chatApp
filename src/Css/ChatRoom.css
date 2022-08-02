@@ -1,0 +1,43 @@
+.chatroom__container{
+    min-width: 100vw;
+    height: calc(100vh - 70px);
+    display: flex;
+}
+
+.chatroom__chats{
+    flex:0.8;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 1rem 1rem 1rem;
+}
+
+.chatroom__form{
+    display: flex;
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+.chatroom__form > input{
+    padding: 0 1rem 0 1rem;
+    flex: 1;
+    background-color:  #0e0e0e;
+    border: none;
+    height: 40px;
+    outline: none;
+}
+.chatroom__form > button{
+    font-weight: bold;
+    color: black;
+    width: 6rem;
+    background: linear-gradient(to right, #59f9b7,#66feea);
+}
+
+.chatroom__chatList{
+    display: flex;
+    flex-direction: column;
+    max-height: 100vh;
+    overflow-y: scroll;
+    flex: 1;
+}
+.chatroom__chatList::-webkit-scrollbar{
+    display: none;
+}
