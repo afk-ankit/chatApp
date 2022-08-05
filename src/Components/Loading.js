@@ -5,8 +5,8 @@ const Loading = ({ loading }) => {
   if (loading)
     return (
       <div className="loading">
-        <div class="loading__spinner">
-          <div class="lds-ring">
+        <div className="loading__spinner">
+          <div className="lds-ring">
             <div></div>
             <div></div>
             <div></div>

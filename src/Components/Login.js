@@ -12,8 +12,10 @@ import { useValue } from "../App/StateProvider";
 import "../Css/Login.css";
 import { auth, db, provider } from "../firebase";
 import Loading from "./Loading";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [state, dispatch] = useValue();
 
@@ -23,6 +25,7 @@ const Login = () => {
         dispatch(
           addUserContext(user.displayName, user.email, user.photoURL, user.uid)
         );
+        console.log(user.email);
       } else {
         console.log("user is null");
       }
@@ -58,6 +61,7 @@ const Login = () => {
           result.user.uid
         )
       );
+      navigate("/");
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -87,6 +91,8 @@ const Login = () => {
           result.user.uid
         )
       );
+      navigate("/");
+
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -129,6 +135,8 @@ const Login = () => {
           result.user.uid
         )
       );
+      navigate("/profile");
+
       setLoading(false);
     } catch (error) {
       alert(error.message);
@@ -158,7 +166,7 @@ const Login = () => {
             </div>
             <div className="login__form__container">
               <p>Password</p>
-              <input type="password" ref={passwordRef} />
+              <input type="password" ref={passwordRef} autoComplete="true" />
             </div>
             <div className="login__form__container">
               <button onClick={handleSignIn}>Submit</button>

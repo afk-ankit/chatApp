@@ -29,17 +29,15 @@ const Sidebar = () => {
   return (
     <div className="sidebar">
       {user?.map((item) => (
-        <>
+        <div key={item.uid}>
           <div className="sidebar__container">
-            <h3 className="sidebar__userName" key={item.uid}>
-              {item.email}
-            </h3>
+            <h3 className="sidebar__userName">{item.email}</h3>
             <div
               className="sidebar__circle"
               style={handleStyle(item.online)}
             ></div>
           </div>
-        </>
+        </div>
       ))}
     </div>
   );
