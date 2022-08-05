@@ -1,0 +1,20 @@
+import React from "react";
+import "../Css/Loading.css";
+
+const Loading = ({ loading }) => {
+  if (loading)
+    return (
+      <div className="loading">
+        <div class="loading__spinner">
+          <div class="lds-ring">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </div>
+      </div>
+    );
+};
+
+export default Loading;

@@ -1,8 +1,9 @@
 import { signOut } from "firebase/auth";
+import { doc, updateDoc } from "firebase/firestore";
 import { removeUserContext } from "../App/features/userAction";
 import { useValue } from "../App/StateProvider";
 import "../Css/Navbar.css";
-import { auth } from "../firebase";
+import { auth, db } from "../firebase";
 const Navbar = () => {
   const [state, dispatch] = useValue();
 
@@ -10,6 +11,9 @@ const Navbar = () => {
 
   const handleSignOut = async () => {
     try {
+      await updateDoc(doc(db, "users", state.uid), {
+        online: false,
+      });
       await signOut(auth);
       dispatch(removeUserContext());
     } catch (err) {
@@ -23,7 +27,7 @@ const Navbar = () => {
         <img src="" alt="logo" />
       </div>
       <div className="nav__links">
-        <button onClick={handleSignOut}>Signout</button>
+        <button onClick={handleSignOut}>Sign out</button>
       </div>
     </div>
   );
