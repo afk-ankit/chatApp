@@ -4,7 +4,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 100vw;
+    min-width: 100vw;
     height: 70px;
     color: white;
     border-bottom: 1px solid  #505050;
@@ -29,3 +29,26 @@
 .nav__links > button:hover{
     transform: scale(1.1);
 }
+
+.nav__a {
+    color: rgb(96, 96, 96);
+    margin-right: 2rem;
+    text-decoration: none;
+}
+
+.nav__logo > img{
+    object-fit: contain;
+    width: 1.6rem;
+    margin-right: 0.5rem;
+}
+
+.nav__logo{
+    display: flex;
+    align-items: center;
+}
+
+.nav__logo >h2{
+    font-size: 1rem;
+    font-weight: 300;
+}
+

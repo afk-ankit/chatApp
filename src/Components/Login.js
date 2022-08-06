@@ -1,6 +1,5 @@
 import {
   createUserWithEmailAndPassword,
-  onAuthStateChanged,
   signInWithEmailAndPassword,
   signInWithPopup,
 } from "firebase/auth";
@@ -19,18 +18,7 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [state, dispatch] = useValue();
 
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        dispatch(
-          addUserContext(user.displayName, user.email, user.photoURL, user.uid)
-        );
-        console.log(user.email);
-      } else {
-        console.log("user is null");
-      }
-    });
-  }, []);
+  useEffect(() => {}, []);
   const emailRef = useRef();
   const passwordRef = useRef();
   //google sign in
@@ -61,7 +49,7 @@ const Login = () => {
           result.user.uid
         )
       );
-      navigate("/");
+      // navigate("/");
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -91,7 +79,7 @@ const Login = () => {
           result.user.uid
         )
       );
-      navigate("/");
+      // navigate("/");
 
       setLoading(false);
     } catch (error) {
@@ -135,7 +123,7 @@ const Login = () => {
           result.user.uid
         )
       );
-      navigate("/profile");
+      // navigate("/profile");
 
       setLoading(false);
     } catch (error) {
@@ -150,10 +138,10 @@ const Login = () => {
       <div className="login__container">
         <div className="login__title">
           <h1>
-            Get Started with the <span className="login__span">Chat</span> app !
+            Get <span className="login__span">Started !</span>
           </h1>
           <p className="login__para">
-            No bullshit stuff just logIn and chat 🔥🔥
+            No hasles stuff just logIn and chat 🔥🔥
           </p>
         </div>
 

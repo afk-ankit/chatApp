@@ -1,0 +1,99 @@
+.profile{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width:100vw;
+    min-height: calc(100vh - 70px);
+}
+
+.profile__form{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    border-radius: 0.5rem;
+    padding: 1rem  2rem;
+    background-color: #0e0e0e;
+    width: 350px;
+    min-height: 370px;
+}
+
+.profile__form__container{
+    margin-top: 0.4rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.profile__form__container > input{
+    padding-left: 1rem;
+    padding-right: 1rem;
+    border-radius: 0.3rem;
+    margin-top: 0.5rem;
+    height: 2.5rem;
+    width: 100%;
+    background-color: black;
+    outline: none;
+    border: none;
+}
+.profile__userImg{
+    position: relative;
+    cursor: pointer;
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-self: center;
+    border-radius: 1rem;
+    /* outline: 2px solid red; */
+    width: 120px;
+    height: 120px;
+    margin-bottom: 1rem;
+}
+#profile__picTitle{
+    align-self: center;
+}
+
+.profile__form__container>button{
+    cursor: pointer;
+    background: linear-gradient(to right, #59f9b7,#66feea);
+    align-self: center;
+    font-size: 1.2rem;
+    border-radius: 0.2rem;
+    margin-top: 1rem;
+    color: black;
+    text-decoration: none;
+    border: none;
+    width: 100%;
+    height: 40px;
+    justify-self: center;
+}
+
+.profile__form__container > input:focus{
+    outline:3px solid gray;
+}
+
+
+.profile__userImg::before{
+    position: absolute;
+    display: flex;
+    background-color: black;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    content: "Change";
+    width: inherit;
+    height: 2rem;
+    border-radius: inherit;
+    transition: all ease-out 200ms ;
+}
+
+.profile__userImg:hover::before{
+    opacity: 1;
+}
+
+.profile__userImg>input{
+    position: absolute;
+    width: inherit;
+    height: inherit;
+    opacity: 0;
+}
