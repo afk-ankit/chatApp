@@ -8,6 +8,10 @@
    
 }
 
+.sidebar>h2{
+    text-align: center;
+}
+
 .sidebar__container{
     padding: 1rem 1rem;
     display: flex;
