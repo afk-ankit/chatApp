@@ -13,11 +13,12 @@ const Navbar = () => {
   const navigate = useNavigate();
   const handleSignOut = async () => {
     try {
+      await signOut(auth);
+      dispatch(removeUserContext());
+      console.log("I am triggered");
       await updateDoc(doc(db, "users", state.uid), {
         online: false,
       });
-      await signOut(auth);
-      dispatch(removeUserContext());
       navigate("/");
     } catch (err) {
       console.log(err);

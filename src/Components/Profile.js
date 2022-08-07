@@ -1,23 +1,79 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Navbar from "./Navbar";
 import "../Css/Profile.css";
-import { storage } from "../firebase";
-import { ref, uploadBytes } from "firebase/storage";
+import { auth, db, storage } from "../firebase";
+import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
+import { doc, onSnapshot, updateDoc } from "firebase/firestore";
+import { useValue } from "../App/StateProvider";
 
 const Profile = () => {
+  console.log(auth.currentUser.displayName);
+  const [userDetails, setUserDetails] = useState({});
+  const [edit, setEdit] = useState(true);
+  const [state] = useValue();
+  useEffect(() => {
+    const docRef = doc(db, "users", state.uid);
+    onSnapshot(docRef, (user) => {
+      if (user) {
+        const data = user.data();
+        console.log(user.data());
+        setUserDetails(data);
+        setEdit(true);
+        data = null;
+      }
+    });
+  }, []);
+
   const picRef = useRef();
+  const userNameRef = useRef();
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const newUserName = userNameRef.current.value;
+    // userNameRef.current.value = null;
     try {
       const file = picRef.current.files[0];
       if (file) {
         const profileRef = ref(storage, `/file/${file.name}`);
-        const result = uploadBytes(profileRef, file);
-      } else if (!file) {
-        throw new Error("No file Selected");
+        //upload Task Initiate
+        const uploadTask = uploadBytesResumable(profileRef, file);
+
+        //listener to upload task
+        uploadTask.on(
+          "state__changed",
+          (snapshot) => {
+            const progress =
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log("Upload is " + progress + "% done");
+          },
+          (err) => {
+            throw new Error(err.message);
+          },
+          () => {
+            getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+              const picUrl = url;
+              console.log("The image can be download from " + url);
+              const userRef = doc(db, "users", state.uid);
+              updateDoc(userRef, {
+                pic: picUrl,
+              }).then((result) => {
+                console.log("Pic Updated Succesfully");
+              });
+            });
+          }
+        );
+
+        //changing the data on the firestore
+      }
+
+      if (newUserName) {
+        const userRef = doc(db, "users", state.uid);
+        await updateDoc(userRef, {
+          userName: newUserName,
+        });
+        console.log("userName successfully updated ");
       }
     } catch (error) {
-      console.log(error);
       alert(error.message);
     }
   };
@@ -28,26 +84,67 @@ const Profile = () => {
         <form action="" className="profile__form">
           <div className="profile__form__container">
             <div className="profile__userImg">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-5 w-5"
-                viewBox="0 0 20 20"
-                fill="rgb(96, 96, 96)"
-                width={40}
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M4 5a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V7a2 2 0 00-2-2h-1.586a1 1 0 01-.707-.293l-1.121-1.121A2 2 0 0011.172 3H8.828a2 2 0 00-1.414.586L6.293 4.707A1 1 0 015.586 5H4zm6 9a3 3 0 100-6 3 3 0 000 6z"
-                  clip-rule="evenodd"
-                />
-              </svg>
+              {userDetails.pic ? (
+                <img src={userDetails.pic} alt="" />
+              ) : (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5"
+                  viewBox="0 0 20 20"
+                  fill="rgb(96, 96, 96)"
+                  width={40}
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M4 5a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V7a2 2 0 00-2-2h-1.586a1 1 0 01-.707-.293l-1.121-1.121A2 2 0 0011.172 3H8.828a2 2 0 00-1.414.586L6.293 4.707A1 1 0 015.586 5H4zm6 9a3 3 0 100-6 3 3 0 000 6z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              )}
+
               <input type="file" id="file" ref={picRef} accept="image/*" />
             </div>
-            <p id="profile__picTitle">Set new profile picture</p>
           </div>
           <div className="profile__form__container">
-            <p>Set new username</p>
-            <input type="text" />
+            <div className="profile__form__edit">
+              <p>Username</p>
+
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6 profile__edit__pointer"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+                width={25}
+                onClick={() => {
+                  setEdit(false);
+                  userNameRef.current.focus();
+                }}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                />
+              </svg>
+            </div>
+            <input
+              type="text"
+              ref={userNameRef}
+              placeholder={
+                userDetails.userName ? userDetails.userName : "No username"
+              }
+              readOnly={edit}
+            />
+          </div>
+          <div className="profile__form__container">
+            <p>Email</p>
+            <input type="text" value={userDetails.email} readOnly />
+          </div>
+          <div className="profile__form__container">
+            <p>User Id</p>
+            <input type="text" value={userDetails.uid} readOnly />
           </div>
           <div className="profile__form__container">
             <button onClick={handleSubmit}>Save</button>

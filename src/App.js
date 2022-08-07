@@ -22,19 +22,16 @@ function App() {
   const [state, dispatch] = useValue();
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (user) => {
-      console.log("On auth ran");
       if (user) {
         dispatch(
           addUserContext(user.displayName, user.email, user.photoURL, user.uid)
         );
         navigate("/");
       } else {
-        console.log("user is null");
       }
     });
     return unsub;
   }, []);
-  console.log(state.email);
   return (
     <>
       <Routes>
@@ -50,9 +47,9 @@ function App() {
         <Route
           path="/profile"
           element={
-            // <AuthProvider>
-            <Profile />
-            // </AuthProvider>
+            <AuthProvider>
+              <Profile />
+            </AuthProvider>
           }
         />
       </Routes>

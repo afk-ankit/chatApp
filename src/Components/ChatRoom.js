@@ -33,7 +33,6 @@ const ChatRoom = () => {
       doc.forEach((item) => {
         mssg.push({ ...item.data(), id: item.id });
       });
-      console.log(mssg);
       setMessage(mssg);
       mssg = [];
     });
@@ -54,7 +53,6 @@ const ChatRoom = () => {
     };
     try {
       const doc = await addDoc(collection(db, "messages"), addMess());
-      console.log("sucessfully created at " + doc.id);
     } catch (error) {
       alert(error.message);
     }

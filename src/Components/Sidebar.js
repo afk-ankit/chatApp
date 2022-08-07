@@ -8,7 +8,6 @@ const Sidebar = () => {
     let userArray = [];
     onSnapshot(collection(db, "users"), (result) => {
       result.forEach((element) => {
-        console.log(element.data());
         userArray.push(element.data());
       });
       setUser(userArray);
@@ -19,11 +18,11 @@ const Sidebar = () => {
   const handleStyle = (online) => {
     if (online)
       return {
-        backgroundColor: "green",
+        backgroundColor: "#96e996",
       };
     else
       return {
-        backgroundColor: "red",
+        backgroundColor: "#ff4242",
       };
   };
   return (
@@ -31,7 +30,20 @@ const Sidebar = () => {
       {user?.map((item) => (
         <div key={item.uid}>
           <div className="sidebar__container">
-            <h3 className="sidebar__userName">{item.email}</h3>
+            <div className="sidebar__userDetails">
+              <div className="sidebar__img">
+                {item.pic ? (
+                  <img src={item.pic} alt="" />
+                ) : (
+                  <div className="sidebar__svg"></div>
+                )}
+              </div>
+              <div className="sidebar__userEmail">
+                <h3>{item.userName}</h3>
+                <p>{item.email}</p>
+              </div>
+            </div>
+
             <div
               className="sidebar__circle"
               style={handleStyle(item.online)}

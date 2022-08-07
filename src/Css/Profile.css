@@ -36,6 +36,7 @@
     border: none;
 }
 .profile__userImg{
+    overflow: hidden;
     position: relative;
     cursor: pointer;
     background-color: black;
@@ -51,6 +52,12 @@
 }
 #profile__picTitle{
     align-self: center;
+}
+
+.profile__userImg>img{
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
 }
 
 .profile__form__container>button{
@@ -82,8 +89,8 @@
     opacity: 0;
     content: "Change";
     width: inherit;
-    height: 2rem;
-    border-radius: inherit;
+    height: 3rem;
+    /* border-radius: inherit; */
     transition: all ease-out 200ms ;
 }
 
@@ -96,4 +103,19 @@
     width: inherit;
     height: inherit;
     opacity: 0;
+}
+
+.profile__form__edit{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+}
+
+.profile__edit__pointer{
+    cursor: pointer;
+}
+.profile__form__container>input::placeholder{
+    color: white;
 }
