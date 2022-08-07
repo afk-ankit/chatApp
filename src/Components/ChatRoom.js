@@ -52,7 +52,9 @@ const ChatRoom = () => {
       };
     };
     try {
-      const doc = await addDoc(collection(db, "messages"), addMess());
+      if (message != "") {
+        const doc = await addDoc(collection(db, "messages"), addMess());
+      }
     } catch (error) {
       alert(error.message);
     }
@@ -66,7 +68,12 @@ const ChatRoom = () => {
         <div className="chatroom__chats">
           <div className="chatroom__chatList">
             {message?.map((item) => (
-              <ChatList key={item.id} message={item.message} uid={item.uid} />
+              <ChatList
+                key={item.id}
+                message={item.message}
+                uid={item.uid}
+                userName={item.userName}
+              />
             ))}
           </div>
           <div className="chatroom__controls">

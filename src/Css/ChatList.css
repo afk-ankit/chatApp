@@ -1,11 +1,17 @@
 .chatList{
     align-self: flex-end;
     max-width: 40%;
-    width: fit-content;
+    overflow-wrap: break-word;
     margin-bottom: 0.3rem;
-    border-radius: 0.2rem;
+    border-radius: 0.4rem;
     font-size: 1rem;
-    padding: 0.1rem 0.8rem 0.3rem 0.8rem;
-    color: black;
-    background-color: aquamarine;
+    font-weight: 500;
+    padding: 0.5rem 0.8rem 0.7rem 0.8rem;
+    color: white;
+    background-color: #313131;
+}
+
+.chatList>h3{
+    font-size: 1rem;
+    color: lightgreen;
 }
