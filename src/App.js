@@ -1,14 +1,7 @@
 import "./Css/App.css";
 import ChatRoom from "./Components/ChatRoom";
 import Login from "./Components/Login";
-import {
-  Routes,
-  Route,
-  useNavigate,
-  Navigate,
-  Link,
-  NavigationType,
-} from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 
 import Profile from "./Components/Profile";
 import { useEffect } from "react";
@@ -26,6 +19,7 @@ function App() {
         dispatch(
           addUserContext(user.displayName, user.email, user.photoURL, user.uid)
         );
+        console.log("changing the route");
         navigate("/");
       } else {
       }

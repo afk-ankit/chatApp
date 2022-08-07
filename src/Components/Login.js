@@ -3,7 +3,7 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
 } from "firebase/auth";
-import { doc, setDoc, Timestamp, updateDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc, Timestamp, updateDoc } from "firebase/firestore";
 import { useEffect, useRef, useState } from "react";
 import GoogleButton from "react-google-button";
 import { addUserContext } from "../App/features/userAction";
@@ -26,20 +26,28 @@ const Login = () => {
     setLoading(true);
     try {
       const result = await signInWithPopup(auth, provider);
-      await setDoc(
-        doc(db, "users", result.user.uid),
-        {
-          userName: result.user.displayName,
-          email: result.user.email,
-          pic: result.user.photoURL,
-          uid: result.user.uid,
+      const isOnline = await getDoc(doc(db, "users", result.user.uid));
+      console.log(isOnline.data());
+      if (!isOnline.data()) {
+        await setDoc(
+          doc(db, "users", result.user.uid),
+          {
+            userName: result.user.displayName,
+            email: result.user.email,
+            pic: result.user.photoURL,
+            uid: result.user.uid,
+            online: true,
+            createdAt: Timestamp.fromDate(new Date()),
+          },
+          {
+            merge: true,
+          }
+        );
+      } else {
+        await updateDoc(doc(db, "users", result.user.uid), {
           online: true,
-          createdAt: Timestamp.fromDate(new Date()),
-        },
-        {
-          merge: true,
-        }
-      );
+        });
+      }
       //dispatch
       dispatch(
         addUserContext(

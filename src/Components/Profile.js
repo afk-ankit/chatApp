@@ -15,7 +15,7 @@ const Profile = () => {
     const docRef = doc(db, "users", state.uid);
     onSnapshot(docRef, (user) => {
       if (user) {
-        const data = user.data();
+        let data = user.data();
         console.log(user.data());
         setUserDetails(data);
         setEdit(true);
