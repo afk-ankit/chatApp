@@ -1,16 +1,21 @@
 .navbar{
+    position: relative;
     padding-left: 1rem;
     padding-right: 1rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    min-width: 100vw;
-    height: 70px;
+    width: 100vw;
+    height: 4rem;
     color: white;
     border-bottom: 1px solid  #505050;
-    
+    background-color: black;
+    z-index: 101;
 }
 
+.nav__hamburger{
+    display: none;
+}
 .nav__links > button {
     text-decoration: none;
     border: none;
@@ -52,3 +57,47 @@
     font-weight: bold;
 }
 
+.nav__mobileLinks{
+    display: flex;
+    top: -100px;
+    padding: 0.5rem 0.5rem;
+    width: 100vw;
+    position: absolute;
+    align-items: flex-end;
+    flex-direction: column;
+    background-color: #0e0e0e;
+    z-index: 100;
+    transition: all 200ms ease-in-out;
+}
+@media screen and (max-width:426px) {
+    .navbar{
+        height: 4rem;
+    }
+    .nav__links{
+        display: none;
+    }
+    .nav__hamburger{
+        display: block;
+    }
+   
+    .nav__mobileLinks>button{
+        text-decoration: none;
+        border: none;
+        outline: none;
+        width: 5rem;
+        height: 2rem;
+        border-radius: .5rem;
+        color:Black;
+        font-size: 1rem;
+        font-weight: bold;
+        background: linear-gradient(to right, #59f9b7,#66feea);
+        cursor: pointer;
+    }
+    .nav__a{
+        margin-bottom: 1rem;
+    }
+
+    .active{
+        top:4rem;
+    }
+}

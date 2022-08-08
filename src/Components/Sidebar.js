@@ -77,58 +77,75 @@ const Sidebar = () => {
           style={handleStyle(personalUser.online)}
         ></div>
       </div>
+      <hr />
+
       {/* online users */}
       <h2>Online Users</h2>
-      {onlineUser?.map((item) => (
-        <div key={item?.uid}>
-          <div className="sidebar__container">
-            <div className="sidebar__userDetails">
-              <div className="sidebar__img">
-                {item?.pic ? (
-                  <img src={item?.pic} alt="" />
-                ) : (
-                  <div className="sidebar__svg"></div>
-                )}
+      {onlineUser.length ? (
+        onlineUser?.map((item) => (
+          <div key={item?.uid}>
+            <div className="sidebar__container">
+              <div className="sidebar__userDetails">
+                <div className="sidebar__img">
+                  {item?.pic ? (
+                    <img src={item?.pic} alt="" />
+                  ) : (
+                    <div className="sidebar__svg"></div>
+                  )}
+                </div>
+                <div className="sidebar__userEmail">
+                  <h3>{item?.userName}</h3>
+                  <p>{item?.email}</p>
+                </div>
               </div>
-              <div className="sidebar__userEmail">
-                <h3>{item?.userName}</h3>
-                <p>{item?.email}</p>
-              </div>
-            </div>
 
-            <div
-              className="sidebar__circle"
-              style={handleStyle(item?.online)}
-            ></div>
+              <div
+                className="sidebar__circle"
+                style={handleStyle(item?.online)}
+              ></div>
+            </div>
           </div>
+        ))
+      ) : (
+        <div className="sidebar__unfound">
+          <p>No users online</p>
         </div>
-      )) || <p>no page</p>}
+      )}
+      <hr />
+
       {/* //offline Users */}
       <h2>Offline Users</h2>
-      {user?.map((item) => (
-        <div key={item?.uid}>
-          <div className="sidebar__container">
-            <div className="sidebar__userDetails">
-              <div className="sidebar__img">
-                {item?.pic ? (
-                  <img src={item?.pic} alt="" />
-                ) : (
-                  <div className="sidebar__svg"></div>
-                )}
+      {user.length ? (
+        user?.map((item) => (
+          <div key={item?.uid}>
+            <div className="sidebar__container">
+              <div className="sidebar__userDetails">
+                <div className="sidebar__img">
+                  {item?.pic ? (
+                    <img src={item?.pic} alt="" />
+                  ) : (
+                    <div className="sidebar__svg"></div>
+                  )}
+                </div>
+                <div className="sidebar__userEmail">
+                  <h3>{item?.userName}</h3>
+                  <p>{item?.email}</p>
+                </div>
               </div>
-              <div className="sidebar__userEmail">
-                <h3>{item?.userName}</h3>
-                <p>{item?.email}</p>
-              </div>
-            </div>
 
-            <div
-              className="sidebar__circle"
-              style={handleStyle(item?.online)}
-            ></div>
+              <div
+                className="sidebar__circle"
+                style={handleStyle(item?.online)}
+              ></div>
+            </div>
           </div>
+        ))
+      ) : (
+        <div className="sidebar__unfound">
+          <p>No user offline</p>
         </div>
-      ))}
+      )}
+      <hr />
     </div>
   );
 };

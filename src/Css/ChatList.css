@@ -1,6 +1,6 @@
 .chatList{
     align-self: flex-end;
-    max-width: 40%;
+    max-width: 24rem;
     overflow-wrap: break-word;
     margin-bottom: 0.3rem;
     border-radius: 0.4rem;
@@ -14,4 +14,10 @@
 .chatList>h3{
     font-size: 1rem;
     color: lightgreen;
+}
+
+@media screen and (max-width:426px) {
+    .chatList{
+        max-width: 16rem;
+    }
 }

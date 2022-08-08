@@ -38,6 +38,7 @@
 .profile__userImg{
     overflow: hidden;
     position: relative;
+    z-index:1;
     cursor: pointer;
     background-color: black;
     display: flex;
