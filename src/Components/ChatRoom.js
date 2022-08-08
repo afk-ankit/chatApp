@@ -6,6 +6,8 @@ import { useEffect, useRef, useState } from "react";
 import {
   addDoc,
   collection,
+  doc,
+  getDoc,
   onSnapshot,
   orderBy,
   query,
@@ -14,19 +16,25 @@ import {
 } from "firebase/firestore";
 import { db } from "../firebase";
 import { useValue } from "../App/StateProvider";
-import { Link } from "react-router-dom";
 
 const userMessages = [];
 
 const ChatRoom = () => {
   //All the statfull components and refs are here
+  const [user, setUser] = useState({});
   const [state] = useValue();
   const messageRef = useRef();
   const [message, setMessage] = useState(userMessages);
 
   //useEffect hook
   useEffect(() => {
+    onSnapshot(doc(db, "users", state.uid), (result) => {
+      if (result) {
+        setUser(result.data());
+      }
+    });
     let mssg = [];
+
     const docRef = collection(db, "messages");
     const q = query(docRef, orderBy("createdAt"));
     onSnapshot(q, (doc) => {
@@ -46,7 +54,7 @@ const ChatRoom = () => {
     const addMess = () => {
       return {
         uid: state.uid,
-        userName: state.userName,
+        userName: user.userName,
         message,
         createdAt: Timestamp.fromDate(new Date()),
       };

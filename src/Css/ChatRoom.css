@@ -49,9 +49,7 @@
 
 
 @media screen and (max-width:426px) {
-    *{
-        font-size: 10px;
-    }
+   
     .chatroom__chats{
         flex: 1;
     }
