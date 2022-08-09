@@ -14,6 +14,9 @@ function App() {
   const navigate = useNavigate();
   const [state, dispatch] = useValue();
   useEffect(() => {
+    //pata nhi kya
+
+    //pata nhi kya end
     const unsub = onAuthStateChanged(auth, (user) => {
       if (user) {
         dispatch(

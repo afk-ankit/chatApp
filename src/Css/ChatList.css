@@ -11,6 +11,7 @@
     background-color: #313131;
 }
 
+
 .chatList>h3{
     font-size: 1rem;
     color: lightgreen;
@@ -18,7 +19,7 @@
 
 @media screen and (max-width:426px) {
     *{
-        font-size: 13px;
+        font-size: 15px;
     }
     .chatList{
         max-width: 16rem;

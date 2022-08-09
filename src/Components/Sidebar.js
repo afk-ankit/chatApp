@@ -2,6 +2,8 @@ import { collection, doc, onSnapshot, query, where } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import "../Css/Sidebar.css";
 import { auth, db } from "../firebase";
+import _ from "lodash";
+
 const Sidebar = () => {
   const [personalUser, setPersonalUser] = useState({});
   const [onlineUser, setOnlineUser] = useState([]);
@@ -67,8 +69,16 @@ const Sidebar = () => {
             )}
           </div>
           <div className="sidebar__userEmail">
-            <h3>{personalUser.userName}</h3>
-            <p>{personalUser.email}</p>
+            <h3>
+              {_.truncate(personalUser.userName, {
+                length: 27,
+              })}
+            </h3>
+            <p>
+              {_.truncate(personalUser.email, {
+                length: 27,
+              })}
+            </p>
           </div>
         </div>
 
@@ -94,8 +104,16 @@ const Sidebar = () => {
                   )}
                 </div>
                 <div className="sidebar__userEmail">
-                  <h3>{item?.userName}</h3>
-                  <p>{item?.email}</p>
+                  <h3>
+                    {_.truncate(item?.userName, {
+                      length: 27,
+                    })}
+                  </h3>
+                  <p>
+                    {_.truncate(item?.email, {
+                      length: 27,
+                    })}
+                  </p>
                 </div>
               </div>
 
@@ -128,8 +146,16 @@ const Sidebar = () => {
                   )}
                 </div>
                 <div className="sidebar__userEmail">
-                  <h3>{item?.userName}</h3>
-                  <p>{item?.email}</p>
+                  <h3>
+                    {_.truncate(item?.userName, {
+                      length: 27,
+                    })}
+                  </h3>
+                  <p>
+                    {_.truncate(item?.email, {
+                      length: 27,
+                    })}
+                  </p>
                 </div>
               </div>
 

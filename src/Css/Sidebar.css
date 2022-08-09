@@ -47,7 +47,7 @@
 .sidebar__userDetails{
     display: flex;
     align-items: center;
-    min-width: 300px;
+    /* min-width: 300px; */
 }
 
 .sidebar__userEmail{
@@ -114,5 +114,27 @@
 @media screen and (max-width:426px) {
     .sidebar{
         display: none;
+        flex: 1;
+        padding:0 0;
+        overflow-x: hidden;
     }
+    .sidebar>h2{
+        font-size: 1.5rem;
+    }
+    .sidebar__circle{
+        display: none;
+    }
+   .sidebar__img>img{
+    width: 2.5rem;
+    height: 2.5rem;
+   }
+   .sidebar__container{
+    padding: 0.6rem 0.6rem;
+   }
+   .sidebar::-webkit-scrollbar{
+    display: none;
+   }
+   .sidebar__img{
+    margin-right: 0.8rem;
+   }
 }

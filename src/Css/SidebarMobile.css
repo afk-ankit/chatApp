@@ -1,0 +1,34 @@
+
+.sidebarMobile{
+    display: none;
+    background-color: black;
+    /* border:2px solid red */
+}
+
+@media screen and (max-width:426px) {
+    .active{
+        display: flex;
+        flex-direction: column;
+    }
+    .sidebarMobile{
+       display: flex;
+       position: absolute;
+       top:0px;
+       left: 0px;
+       height: calc(100vh - 4rem);
+       width: 15rem;
+       background-color: #0e0e0e;
+       overflow:hidden;
+       transition: all 300ms ease-in-out;
+    }
+    .sidebar__closeIcon{
+        display: flex;
+        width: 100%;
+        justify-content: flex-end;
+        padding-top: 0.5rem;
+        padding-right: 0.5rem;
+    }
+    .toggle{
+        left: -250px;
+    }
+}

@@ -16,15 +16,15 @@ import {
 } from "firebase/firestore";
 import { db } from "../firebase";
 import { useValue } from "../App/StateProvider";
-
-const userMessages = [];
+import SidebarMobile from "./SidebarMobile";
+import PersonIcon from "@mui/icons-material/Person";
 
 const ChatRoom = () => {
   //All the statfull components and refs are here
   const [user, setUser] = useState({});
   const [state] = useValue();
   const messageRef = useRef();
-  const [message, setMessage] = useState(userMessages);
+  const [message, setMessage] = useState([]);
 
   //useEffect hook
   useEffect(() => {
@@ -68,11 +68,17 @@ const ChatRoom = () => {
     }
   };
 
+  //toggling sidebar
+  const sidebarToggle = () => {
+    document.querySelector(".sidebarMobile").classList.toggle("toggle");
+  };
+
   return (
     <div>
       <Navbar />
       <div className="chatroom__container">
         <Sidebar />
+        <SidebarMobile />
         <div className="chatroom__chats">
           <div className="chatroom__chatList">
             {message?.map((item) => (
@@ -86,6 +92,9 @@ const ChatRoom = () => {
           </div>
           <div className="chatroom__controls">
             <form className="chatroom__form">
+              <div className="chatroom__personList">
+                <PersonIcon fontSize="large" onClick={sidebarToggle} />
+              </div>
               <input type="text" ref={messageRef} />
               <button type="submit" onClick={handleSend}>
                 Send
