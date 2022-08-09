@@ -29,7 +29,7 @@
 .chatroom__form > button{
     font-weight: bold;
     color: black;
-    width: 6rem;
+    flex-basis: 6rem;
     background: linear-gradient(to right, #59f9b7,#66feea);
     text-decoration: none;
     border: none;
@@ -77,14 +77,13 @@
         align-items: center;
         justify-content: center;
         display: block;
+    } 
+    /* .chatroom__form>input{
+        flex: 0.6;
     }
+    .chatroom__form>button{
+        flex-basis: 0;
+        flex: 0.5;
+    } */
 }
 
-@media screen  and (max-width:375){
-    .chatroom__form>input{
-        flex: 0.7;
-    }
-    .chatroom__form > button{
-        flex: 0.3;
-    }
-}
