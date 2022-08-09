@@ -4,7 +4,9 @@
   margin: 0 0;
   padding: 0 0;
 }
-
+html{
+  height: -webkit-fill-available;
+}
 body {
   background-color: black;
   margin: 0;
@@ -13,6 +15,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  height: -webkit-fill-available;
 }
 
 code {

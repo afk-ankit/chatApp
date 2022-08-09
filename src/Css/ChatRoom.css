@@ -19,7 +19,6 @@
     overflow: hidden;
 }
 .chatroom__form > input{
-    /* width: 100%; */
     padding: 0 1rem 0 1rem;
     flex: 1;
     background-color:  #0e0e0e;
@@ -35,7 +34,6 @@
 }
 
 .chatroom__chatList{
-    /* max-width: calc(100vw - 2rem); */
     display: flex;
     flex-direction: column;
     max-height: 100vh;
@@ -44,10 +42,19 @@
     margin-bottom: 1rem;
 }
 .chatroom__chatList::-webkit-scrollbar{
-    display: none;
+    width: 1rem;
 }
-
-
+.chatroom__chatList::-webkit-scrollbar-thumb{
+    width: 1rem;
+    /* height: 15px; */
+    background-color: #0e0e0e;
+    border-radius: 1rem;
+    border:0.3rem solid transparent;
+    background-clip:content-box;
+}
+.chatroom__chatList::-webkit-scrollbar-thumb:hover{
+    background-color: #222222;
+}
 @media screen and (max-width:426px) {
    
     .chatroom__chats{
