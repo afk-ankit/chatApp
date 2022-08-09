@@ -64,7 +64,7 @@ const SidebarMobile = () => {
     sidebarRef.current.classList.toggle("toggle");
   };
   return (
-    <div className="sidebarMobile" ref={sidebarRef}>
+    <div className="sidebarMobile toggle" ref={sidebarRef}>
       <div className="sidebar active">
         <div className="sidebar__closeIcon">
           <CloseIcon onClick={toggleSidebar} />

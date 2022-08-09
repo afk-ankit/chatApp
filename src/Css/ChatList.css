@@ -25,3 +25,8 @@
         max-width: 16rem;
     }
 }
+@media screen  and (max-width:376px){
+    .chatList{
+        max-width: 12rem;
+    }
+}
