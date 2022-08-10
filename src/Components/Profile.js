@@ -5,9 +5,10 @@ import { auth, db, storage } from "../firebase";
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import { doc, onSnapshot, updateDoc } from "firebase/firestore";
 import { useValue } from "../App/StateProvider";
+import toast from "react-hot-toast";
 
 const Profile = () => {
-  console.log(auth.currentUser.displayName);
+  const [userInput, setUserInput] = useState();
   const [userDetails, setUserDetails] = useState({});
   const [edit, setEdit] = useState(true);
   const [state] = useValue();
@@ -28,9 +29,8 @@ const Profile = () => {
   const userNameRef = useRef();
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    toast("You will be notified when profile will be updated !");
     const newUserName = userNameRef.current.value;
-    // userNameRef.current.value = null;
     try {
       const file = picRef.current.files[0];
       if (file) {
@@ -57,6 +57,7 @@ const Profile = () => {
               updateDoc(userRef, {
                 pic: picUrl,
               }).then((result) => {
+                toast.success("Pic Updated Successfully");
                 console.log("Pic Updated Succesfully");
               });
             });
@@ -72,8 +73,12 @@ const Profile = () => {
           userName: newUserName,
         });
         console.log("userName successfully updated ");
+        toast.success("Username updated successfully");
+      } else {
+        toast.error("Can't update userName to blank !!!");
       }
     } catch (error) {
+      toast.error(error.message);
       alert(error.message);
     }
   };
@@ -117,8 +122,9 @@ const Profile = () => {
                 stroke="currentColor"
                 strokeWidth={2}
                 width={25}
-                onClick={() => {
-                  setEdit(false);
+                onClick={(e) => {
+                  userNameRef.current.classList.toggle("sidebar__userName");
+                  setEdit((prev) => !prev);
                   userNameRef.current.focus();
                 }}
               >
@@ -130,8 +136,13 @@ const Profile = () => {
               </svg>
             </div>
             <input
+              id="userName"
               type="text"
               ref={userNameRef}
+              value={userInput != null ? userInput : userDetails.userName}
+              onChange={(e) => {
+                setUserInput(e.target.value);
+              }}
               placeholder={
                 userDetails.userName ? userDetails.userName : "No username"
               }

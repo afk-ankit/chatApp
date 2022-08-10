@@ -25,6 +25,7 @@
     border: none;
     height: 2.5rem;
     outline: none;
+    color: white;
 }
 .chatroom__form > button{
     font-weight: bold;

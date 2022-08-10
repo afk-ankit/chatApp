@@ -2,7 +2,7 @@ import "./Css/App.css";
 import ChatRoom from "./Components/ChatRoom";
 import Login from "./Components/Login";
 import { Routes, Route, useNavigate } from "react-router-dom";
-
+import { Toaster } from "react-hot-toast";
 import Profile from "./Components/Profile";
 import { useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
@@ -14,9 +14,6 @@ function App() {
   const navigate = useNavigate();
   const [state, dispatch] = useValue();
   useEffect(() => {
-    //pata nhi kya
-
-    //pata nhi kya end
     const unsub = onAuthStateChanged(auth, (user) => {
       if (user) {
         dispatch(
@@ -31,6 +28,8 @@ function App() {
   }, []);
   return (
     <>
+      <Toaster />
+
       <Routes>
         <Route
           path="/"

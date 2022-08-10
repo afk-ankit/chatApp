@@ -36,7 +36,6 @@
 .sidebar__circle{
     width: 0.7rem;
     height: 0.7rem;
-    /* background-color: red; */
     border-radius: 2rem;
 }
 
@@ -47,7 +46,6 @@
 .sidebar__userDetails{
     display: flex;
     align-items: center;
-    /* min-width: 300px; */
 }
 
 .sidebar__userEmail{
@@ -59,8 +57,10 @@
 .sidebar__svg{
     height: 3rem;
     width: 3rem;
-    background-color: #1f1f1f;
+    color: aquamarine;
+    /* background-color: #1f1f1f; */
     border-radius: 100%;
+    color: "#292929",
 }
 
 .sidebar__userEmail>h3{
@@ -101,7 +101,6 @@
 }
 .sidebar::-webkit-scrollbar-thumb{
     width: 1rem;
-    /* height: 15px; */
     background-color: #0e0e0e;
     border-radius: 1rem;
     border:0.3rem solid transparent;

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import "../Css/Sidebar.css";
 import { auth, db } from "../firebase";
 import _ from "lodash";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 const Sidebar = () => {
   const [personalUser, setPersonalUser] = useState({});
@@ -65,7 +66,13 @@ const Sidebar = () => {
             {personalUser.pic ? (
               <img src={personalUser.pic} alt="" />
             ) : (
-              <div className="sidebar__svg"></div>
+              <AccountCircleIcon
+                style={{
+                  fontSize: "3.5rem",
+                  marginLeft: "-0.4rem",
+                  color: "#292929",
+                }}
+              />
             )}
           </div>
           <div className="sidebar__userEmail">
@@ -100,7 +107,13 @@ const Sidebar = () => {
                   {item?.pic ? (
                     <img src={item?.pic} alt="" />
                   ) : (
-                    <div className="sidebar__svg"></div>
+                    <AccountCircleIcon
+                      style={{
+                        fontSize: "3.5rem",
+                        marginLeft: "-0.4rem",
+                        color: "#292929",
+                      }}
+                    />
                   )}
                 </div>
                 <div className="sidebar__userEmail">
@@ -142,7 +155,13 @@ const Sidebar = () => {
                   {item?.pic ? (
                     <img src={item?.pic} alt="" />
                   ) : (
-                    <div className="sidebar__svg"></div>
+                    <AccountCircleIcon
+                      style={{
+                        fontSize: "3.5rem",
+                        marginLeft: "-0.4rem",
+                        color: "#292929",
+                      }}
+                    />
                   )}
                 </div>
                 <div className="sidebar__userEmail">
