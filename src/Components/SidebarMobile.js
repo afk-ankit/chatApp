@@ -4,6 +4,8 @@ import "../Css/SidebarMobile.css";
 import { auth, db } from "../firebase";
 import _ from "lodash";
 import CloseIcon from "@mui/icons-material/Close";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+
 const SidebarMobile = () => {
   const [personalUser, setPersonalUser] = useState({});
   const [onlineUser, setOnlineUser] = useState([]);
@@ -76,7 +78,13 @@ const SidebarMobile = () => {
               {personalUser.pic ? (
                 <img src={personalUser.pic} alt="" />
               ) : (
-                <div className="sidebar__svg"></div>
+                <AccountCircleIcon
+                  style={{
+                    fontSize: "3.5rem",
+                    marginLeft: "-0.4rem",
+                    color: "#292929",
+                  }}
+                />
               )}
             </div>
             <div className="sidebar__userEmail">
@@ -111,7 +119,13 @@ const SidebarMobile = () => {
                     {item?.pic ? (
                       <img src={item?.pic} alt="" />
                     ) : (
-                      <div className="sidebar__svg"></div>
+                      <AccountCircleIcon
+                        style={{
+                          fontSize: "3.5rem",
+                          marginLeft: "-0.4rem",
+                          color: "#292929",
+                        }}
+                      />
                     )}
                   </div>
                   <div className="sidebar__userEmail">
@@ -153,7 +167,13 @@ const SidebarMobile = () => {
                     {item?.pic ? (
                       <img src={item?.pic} alt="" />
                     ) : (
-                      <div className="sidebar__svg"></div>
+                      <AccountCircleIcon
+                        style={{
+                          fontSize: "3.5rem",
+                          marginLeft: "-0.4rem",
+                          color: "#292929",
+                        }}
+                      />
                     )}
                   </div>
                   <div className="sidebar__userEmail">
