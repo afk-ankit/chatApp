@@ -6,6 +6,7 @@ import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import { doc, onSnapshot, updateDoc } from "firebase/firestore";
 import { useValue } from "../App/StateProvider";
 import toast from "react-hot-toast";
+import imageCompression from "browser-image-compression";
 
 const Profile = () => {
   const [userInput, setUserInput] = useState();
@@ -35,8 +36,21 @@ const Profile = () => {
       const file = picRef.current.files[0];
       if (file) {
         const profileRef = ref(storage, `/file/${file.name}`);
+        //compression beggins
+        const options = {
+          maxSizeMB: 0.5,
+          maxWidthOrHeight: 1920,
+          useWebWorker: true,
+        };
+        const compressedFile = await imageCompression(file, options);
+        console.log(
+          `the size after compression is ${
+            compressedFile.size / 1024 / 1024
+          } MB`
+        );
+
         //upload Task Initiate
-        const uploadTask = uploadBytesResumable(profileRef, file);
+        const uploadTask = uploadBytesResumable(profileRef, compressedFile);
 
         //listener to upload task
         uploadTask.on(
