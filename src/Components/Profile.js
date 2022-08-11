@@ -121,8 +121,42 @@ const Profile = () => {
                 </svg>
               )}
 
-              <input type="file" id="file" ref={picRef} accept="image/*" />
+              <input
+                type="file"
+                id="file"
+                ref={picRef}
+                accept="image/*"
+                onChange={() => {
+                  if (picRef.current.files[0]) {
+                    //file reader to read the current file from input and display it in the dp section
+                    const reader = new FileReader();
+                    reader.readAsDataURL(picRef.current.files[0]);
+                    reader.onload = () => {
+                      if (reader.readyState === 2) {
+                        // console.log("reader result is " + reader.result);
+                        setUserDetails({ ...userDetails, pic: reader.result });
+                      }
+                    };
+                  }
+                }}
+              />
             </div>
+            <p
+              id="profile__picTitle"
+              style={{ color: "lightcoral", cursor: "pointer" }}
+              onClick={async () => {
+                try {
+                  await updateDoc(doc(db, "users", state.uid), {
+                    pic: null,
+                  });
+                  toast.success("Sucessfully removed dp");
+                } catch (error) {
+                  toast.error("error");
+                }
+              }}
+            >
+              Remove dp
+            </p>
           </div>
           <div className="profile__form__container">
             <div className="profile__form__edit">
