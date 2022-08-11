@@ -18,11 +18,13 @@ import { db } from "../firebase";
 import { useValue } from "../App/StateProvider";
 import SidebarMobile from "./SidebarMobile";
 import PersonIcon from "@mui/icons-material/Person";
+import { useChat } from "../App/ChatProvider";
 
 const ChatRoom = () => {
   //All the statfull components and refs are here
   const [user, setUser] = useState({});
   const [state] = useValue();
+  const [chatState, chatDispatch] = useChat();
   const messageRef = useRef();
   const [message, setMessage] = useState([]);
 
@@ -35,20 +37,38 @@ const ChatRoom = () => {
     });
     let mssg = [];
 
-    const docRef = collection(db, "messages");
+    const docRef = collection(
+      db,
+      "userChat",
+      chatState.uid > state.uid
+        ? `${chatState.uid}${state.uid}`
+        : `${state.uid}${chatState.uid}`,
+      "messages"
+    );
     const q = query(docRef, orderBy("createdAt"));
     onSnapshot(q, (doc) => {
+      console.log(doc);
       doc.forEach((item) => {
+        console.log(item.data());
         mssg.push({ ...item.data(), id: item.id });
       });
       setMessage(mssg);
       mssg = [];
     });
-  }, []);
+  }, [chatState.uid]);
 
   //function to send the data on the firebase
   const handleSend = async (e) => {
     e.preventDefault();
+
+    const docRef = collection(
+      db,
+      "userChat",
+      chatState.uid > state.uid
+        ? `${chatState.uid}${state.uid}`
+        : `${state.uid}${chatState.uid}`,
+      "messages"
+    );
     const message = messageRef.current.value;
     messageRef.current.value = null;
     const addMess = () => {
@@ -61,7 +81,7 @@ const ChatRoom = () => {
     };
     try {
       if (message != "") {
-        const doc = await addDoc(collection(db, "messages"), addMess());
+        const doc = await addDoc(docRef, addMess());
       }
     } catch (error) {
       alert(error.message);
