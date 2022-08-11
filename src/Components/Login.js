@@ -26,7 +26,6 @@ const Login = () => {
     try {
       const result = await signInWithPopup(auth, provider);
       const isOnline = await getDoc(doc(db, "users", result.user.uid));
-      console.log(isOnline.data());
       if (!isOnline.data()) {
         await setDoc(
           doc(db, "users", result.user.uid),
@@ -104,7 +103,6 @@ const Login = () => {
         emailRef.current.value,
         passwordRef.current.value
       );
-      console.log(result.user);
       //add to database
       await setDoc(
         doc(db, "users", result.user.uid),

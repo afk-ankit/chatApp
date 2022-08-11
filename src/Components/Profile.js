@@ -18,7 +18,6 @@ const Profile = () => {
     onSnapshot(docRef, (user) => {
       if (user) {
         let data = user.data();
-        console.log(user.data());
         setUserDetails(data);
         setEdit(true);
         data = null;
@@ -30,10 +29,13 @@ const Profile = () => {
   const userNameRef = useRef();
   const handleSubmit = async (e) => {
     e.preventDefault();
-    toast("You will be notified when profile will be updated !");
     const newUserName = userNameRef.current.value;
+    const file = picRef.current.files[0];
+    if (file || (newUserName && newUserName != userDetails.userName)) {
+      toast("You will be notified when profile will be updated !");
+    }
+
     try {
-      const file = picRef.current.files[0];
       if (file) {
         const profileRef = ref(storage, `/file/${file.name}`);
         //compression beggins
@@ -66,13 +68,11 @@ const Profile = () => {
           () => {
             getDownloadURL(uploadTask.snapshot.ref).then((url) => {
               const picUrl = url;
-              console.log("The image can be download from " + url);
               const userRef = doc(db, "users", state.uid);
               updateDoc(userRef, {
                 pic: picUrl,
               }).then((result) => {
                 toast.success("Pic Updated Successfully");
-                console.log("Pic Updated Succesfully");
               });
             });
           }
@@ -81,14 +81,13 @@ const Profile = () => {
         //changing the data on the firestore
       }
 
-      if (newUserName) {
+      if (newUserName && newUserName != userDetails.userName) {
         const userRef = doc(db, "users", state.uid);
         await updateDoc(userRef, {
           userName: newUserName,
         });
-        console.log("userName successfully updated ");
         toast.success("Username updated successfully");
-      } else {
+      } else if (!newUserName) {
         toast.error("Can't update userName to blank !!!");
       }
     } catch (error) {
@@ -133,7 +132,6 @@ const Profile = () => {
                     reader.readAsDataURL(picRef.current.files[0]);
                     reader.onload = () => {
                       if (reader.readyState === 2) {
-                        // console.log("reader result is " + reader.result);
                         setUserDetails({ ...userDetails, pic: reader.result });
                       }
                     };

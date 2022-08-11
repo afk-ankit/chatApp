@@ -61,8 +61,6 @@ const SidebarMobile = () => {
   };
 
   const toggleSidebar = () => {
-    console.log("hello");
-    console.log(sidebarRef.current.classList);
     sidebarRef.current.classList.toggle("toggle");
   };
   return (
