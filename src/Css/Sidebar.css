@@ -12,6 +12,7 @@
 }
 
 .sidebar__container{
+    cursor: pointer;
     padding: 1rem 1rem;
     display: flex;
     align-items: center;

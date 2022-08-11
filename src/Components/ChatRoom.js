@@ -11,7 +11,6 @@ import {
   onSnapshot,
   orderBy,
   query,
-  serverTimestamp,
   Timestamp,
 } from "firebase/firestore";
 import { db } from "../firebase";
@@ -19,6 +18,7 @@ import { useValue } from "../App/StateProvider";
 import SidebarMobile from "./SidebarMobile";
 import PersonIcon from "@mui/icons-material/Person";
 import { useChat } from "../App/ChatProvider";
+import { Avatar } from "@mui/material";
 
 const ChatRoom = () => {
   //All the statfull components and refs are here
@@ -99,29 +99,39 @@ const ChatRoom = () => {
       <div className="chatroom__container">
         <Sidebar />
         <SidebarMobile />
-        <div className="chatroom__chats">
-          <div className="chatroom__chatList">
-            {message?.map((item) => (
-              <ChatList
-                key={item.id}
-                message={item.message}
-                uid={item.uid}
-                userName={item.userName}
-              />
-            ))}
+        {chatState.uid ? (
+          <div className="chatroom__chats">
+            <div className="chatroom__header">
+              <Avatar src={chatState.pic} />
+              <h2>{chatState.userName}</h2>
+            </div>
+            <div className="chatroom__chatList">
+              {message?.map((item) => (
+                <ChatList
+                  key={item.id}
+                  message={item.message}
+                  uid={item.uid}
+                  userName={item.userName}
+                />
+              ))}
+            </div>
+            <div className="chatroom__controls">
+              <form className="chatroom__form">
+                <div className="chatroom__personList">
+                  <PersonIcon fontSize="large" onClick={sidebarToggle} />
+                </div>
+                <input type="text" ref={messageRef} />
+                <button type="submit" onClick={handleSend}>
+                  Send
+                </button>
+              </form>
+            </div>
           </div>
-          <div className="chatroom__controls">
-            <form className="chatroom__form">
-              <div className="chatroom__personList">
-                <PersonIcon fontSize="large" onClick={sidebarToggle} />
-              </div>
-              <input type="text" ref={messageRef} />
-              <button type="submit" onClick={handleSend}>
-                Send
-              </button>
-            </form>
+        ) : (
+          <div className="chatroom__landing">
+            <h2>Please select the user from the user list 👈</h2>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

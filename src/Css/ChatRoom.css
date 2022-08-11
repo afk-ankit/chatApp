@@ -60,6 +60,24 @@
 .chatroom__chatList::-webkit-scrollbar-thumb:hover{
     background-color: #222222;
 }
+.chatroom__landing{
+    flex:1;
+    display: flex;
+    padding: 1rem 1rem;
+    align-items: center;
+    justify-content: center;
+}
+.chatroom__header{
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    gap: 1rem;
+    padding: 0.5rem 0.5rem;
+    background-color:  #0e0e0e;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+}
 @media screen and (max-width:426px) {
    
     .chatroom__chats{
@@ -79,12 +97,5 @@
         justify-content: center;
         display: block;
     } 
-    /* .chatroom__form>input{
-        flex: 0.6;
-    }
-    .chatroom__form>button{
-        flex-basis: 0;
-        flex: 0.5;
-    } */
 }
 
