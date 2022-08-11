@@ -5,14 +5,17 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import StateProvider from "./App/StateProvider";
 import { BrowserRouter } from "react-router-dom";
+import ChatProvider from "./App/ChatProvider";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <StateProvider>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <ChatProvider>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </ChatProvider>
     </StateProvider>
   </React.StrictMode>
 );

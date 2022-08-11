@@ -4,11 +4,15 @@ import "../Css/Sidebar.css";
 import { auth, db } from "../firebase";
 import _ from "lodash";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { useChat } from "../App/ChatProvider";
+import { addChat } from "../App/features/chatAction";
 
 const Sidebar = () => {
   const [personalUser, setPersonalUser] = useState({});
   const [onlineUser, setOnlineUser] = useState([]);
   const [user, setUser] = useState([]);
+  const [state, dispatch] = useChat();
+
   useEffect(() => {
     //user Details
     onSnapshot(doc(db, "users", auth.currentUser.uid), (result) => {
@@ -100,7 +104,12 @@ const Sidebar = () => {
       <h2>Online Users</h2>
       {onlineUser.length ? (
         onlineUser?.map((item) => (
-          <div key={item?.uid}>
+          <div
+            key={item?.uid}
+            onClick={() => {
+              dispatch(addChat(item));
+            }}
+          >
             <div className="sidebar__container">
               <div className="sidebar__userDetails">
                 <div className="sidebar__img">
@@ -148,7 +157,12 @@ const Sidebar = () => {
       <h2>Offline Users</h2>
       {user.length ? (
         user?.map((item) => (
-          <div key={item?.uid}>
+          <div
+            key={item?.uid}
+            onClick={() => {
+              dispatch(addChat(item));
+            }}
+          >
             <div className="sidebar__container">
               <div className="sidebar__userDetails">
                 <div className="sidebar__img">
