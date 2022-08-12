@@ -87,7 +87,7 @@ const Sidebar = () => {
             </h3>
             <p>
               {_.truncate(personalUser.email, {
-                length: 27,
+                length: 23,
               })}
             </p>
           </div>
@@ -133,7 +133,7 @@ const Sidebar = () => {
                   </h3>
                   <p>
                     {_.truncate(item?.email, {
-                      length: 27,
+                      length: 23,
                     })}
                   </p>
                 </div>
@@ -186,7 +186,7 @@ const Sidebar = () => {
                   </h3>
                   <p>
                     {_.truncate(item?.email, {
-                      length: 27,
+                      length: 23,
                     })}
                   </p>
                 </div>

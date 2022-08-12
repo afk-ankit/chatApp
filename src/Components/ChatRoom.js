@@ -19,7 +19,7 @@ import SidebarMobile from "./SidebarMobile";
 import PersonIcon from "@mui/icons-material/Person";
 import { useChat } from "../App/ChatProvider";
 import { Avatar } from "@mui/material";
-
+import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 const ChatRoom = () => {
   //All the statfull components and refs are here
   const [user, setUser] = useState({});
@@ -129,7 +129,16 @@ const ChatRoom = () => {
           </div>
         ) : (
           <div className="chatroom__landing">
-            <h2>Please select the user from the user list 👈</h2>
+            <div className="chatroom__header" id="chatroom__userButton">
+              <ArrowRightAltIcon
+                style={{ fontSize: "2rem" }}
+                onClick={sidebarToggle}
+              />
+              <h2 onClick={sidebarToggle}>User List</h2>
+            </div>
+            <h2 id="chatroom__landingTitle">
+              Please select the user from the user list 👈
+            </h2>
           </div>
         )}
       </div>

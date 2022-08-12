@@ -5,12 +5,16 @@ import { auth, db } from "../firebase";
 import _ from "lodash";
 import CloseIcon from "@mui/icons-material/Close";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { useChat } from "../App/ChatProvider";
+import { addChat } from "../App/features/chatAction";
 
 const SidebarMobile = () => {
   const [personalUser, setPersonalUser] = useState({});
   const [onlineUser, setOnlineUser] = useState([]);
   const [user, setUser] = useState([]);
   const sidebarRef = useRef();
+  const [state, dispatch] = useChat();
+
   useEffect(() => {
     //user Details
     onSnapshot(doc(db, "users", auth.currentUser.uid), (result) => {
@@ -63,6 +67,9 @@ const SidebarMobile = () => {
   const toggleSidebar = () => {
     sidebarRef.current.classList.toggle("toggle");
   };
+  const sidebarToggle = () => {
+    document.querySelector(".sidebarMobile").classList.toggle("toggle");
+  };
   return (
     <div className="sidebarMobile toggle" ref={sidebarRef}>
       <div className="sidebar active">
@@ -70,7 +77,7 @@ const SidebarMobile = () => {
           <CloseIcon onClick={toggleSidebar} />
         </div>
         <h2>You</h2>
-        <div className="sidebar__container">
+        <div className="sidebar__container" onClick={sidebarToggle}>
           <div className="sidebar__userDetails">
             <div className="sidebar__img">
               {personalUser.pic ? (
@@ -110,7 +117,13 @@ const SidebarMobile = () => {
         <h2>Online Users</h2>
         {onlineUser.length ? (
           onlineUser?.map((item) => (
-            <div key={item?.uid}>
+            <div
+              key={item?.uid}
+              onClick={() => {
+                dispatch(addChat(item));
+                sidebarToggle();
+              }}
+            >
               <div className="sidebar__container">
                 <div className="sidebar__userDetails">
                   <div className="sidebar__img">
@@ -158,7 +171,13 @@ const SidebarMobile = () => {
         <h2>Offline Users</h2>
         {user.length ? (
           user?.map((item) => (
-            <div key={item?.uid}>
+            <div
+              key={item?.uid}
+              onClick={() => {
+                dispatch(addChat(item));
+                sidebarToggle();
+              }}
+            >
               <div className="sidebar__container">
                 <div className="sidebar__userDetails">
                   <div className="sidebar__img">
