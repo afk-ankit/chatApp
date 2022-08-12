@@ -18,19 +18,31 @@ import { useValue } from "../App/StateProvider";
 import SidebarMobile from "./SidebarMobile";
 import PersonIcon from "@mui/icons-material/Person";
 import { useChat } from "../App/ChatProvider";
-import { Avatar } from "@mui/material";
+import { Avatar, Backdrop, CircularProgress } from "@mui/material";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 const ChatRoom = () => {
   //All the statfull components and refs are here
   const [user, setUser] = useState({});
+  const [chatUser, setChatUser] = useState({ uid: null });
   const [state] = useValue();
   const [chatState, chatDispatch] = useChat();
   const messageRef = useRef();
   const [message, setMessage] = useState([]);
-
   //useEffect hook
   useEffect(() => {
-    onSnapshot(doc(db, "users", state.uid), (result) => {
+    //chatPerson
+    console.log(chatState.uid);
+    let unsub1;
+    if (chatState.uid) {
+      unsub1 = onSnapshot(doc(db, "users", chatState.uid), (result) => {
+        if (result) {
+          console.log(result.data());
+          setChatUser(result.data());
+        }
+      });
+    }
+    //message sender
+    const unsub2 = onSnapshot(doc(db, "users", state.uid), (result) => {
       if (result) {
         setUser(result.data());
       }
@@ -46,21 +58,25 @@ const ChatRoom = () => {
       "messages"
     );
     const q = query(docRef, orderBy("createdAt"));
-    onSnapshot(q, (doc) => {
-      console.log(doc);
+    const unsub3 = onSnapshot(q, (doc) => {
       doc.forEach((item) => {
-        console.log(item.data());
         mssg.push({ ...item.data(), id: item.id });
       });
       setMessage(mssg);
       mssg = [];
     });
+
+    return () => {
+      unsub1();
+      unsub2();
+      unsub3();
+    };
   }, [chatState.uid]);
 
   //function to send the data on the firebase
   const handleSend = async (e) => {
     e.preventDefault();
-
+    const audio = new Audio("./assests/messagePop.mp3");
     const docRef = collection(
       db,
       "userChat",
@@ -81,6 +97,7 @@ const ChatRoom = () => {
     };
     try {
       if (message != "") {
+        audio.play();
         const doc = await addDoc(docRef, addMess());
       }
     } catch (error) {
@@ -102,19 +119,25 @@ const ChatRoom = () => {
         {chatState.uid ? (
           <div className="chatroom__chats">
             <div className="chatroom__header">
-              <Avatar src={chatState.pic} />
-              <h2>{chatState.userName}</h2>
+              <Avatar src={chatUser.pic} />
+              <h2>{chatUser.userName}</h2>
             </div>
-            <div className="chatroom__chatList">
-              {message?.map((item) => (
-                <ChatList
-                  key={item.id}
-                  message={item.message}
-                  uid={item.uid}
-                  userName={item.userName}
-                />
-              ))}
-            </div>
+            {message.length ? (
+              <div className="chatroom__chatList">
+                {message?.map((item) => (
+                  <ChatList
+                    key={item.id}
+                    message={item.message}
+                    uid={item.uid}
+                    userName={item.userName}
+                  />
+                ))}
+              </div>
+            ) : (
+              <Backdrop sx={{ color: "#fff", zIndex: "200" }} open={true}>
+                <CircularProgress color="inherit" />
+              </Backdrop>
+            )}
             <div className="chatroom__controls">
               <form className="chatroom__form">
                 <div className="chatroom__personList">

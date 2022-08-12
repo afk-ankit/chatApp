@@ -19,7 +19,6 @@ function App() {
         dispatch(
           addUserContext(user.displayName, user.email, user.photoURL, user.uid)
         );
-        console.log("changing the route");
         navigate("/");
       } else {
       }
