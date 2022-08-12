@@ -4,9 +4,10 @@ import { auth } from "../firebase";
 const ChatList = ({ message, uid, userName }) => {
   const scrollRef = useRef();
   useEffect(() => {
-    scrollRef.current.scrollIntoView({
+    scrollRef?.current?.scrollIntoView({
       behaviour: "smooth",
     });
+    console.log(message);
   }, []);
 
   const setClass = (uid) => {
@@ -27,13 +28,23 @@ const ChatList = ({ message, uid, userName }) => {
     }
   };
 
-  return (
-    <div className="chatList" style={setClass(uid)}>
-      <h3 style={setStyle(uid)}>{userName}</h3>
-      {message}
-      <div ref={scrollRef}></div>
-    </div>
-  );
+  if (message === true) {
+    return (
+      <div>
+        <h3 style={{ textAlign: "center" }}>
+          Send Message to start Conversation
+        </h3>
+      </div>
+    );
+  } else {
+    return (
+      <div className="chatList" style={setClass(uid)}>
+        <h3 style={setStyle(uid)}>{userName}</h3>
+        {message}
+        <div ref={scrollRef}></div>
+      </div>
+    );
+  }
 };
 
 export default ChatList;

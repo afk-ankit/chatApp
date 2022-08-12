@@ -65,68 +65,40 @@ const Sidebar = () => {
   return (
     <div className="sidebar">
       <h2>You</h2>
-      {personalUser.pic ? (
-        <div className="sidebar__container">
-          <div className="sidebar__userDetails">
-            <div className="sidebar__img">
-              {personalUser.pic ? (
-                <img src={personalUser.pic} alt="" />
-              ) : (
-                <AccountCircleIcon
-                  style={{
-                    fontSize: "3.5rem",
-                    marginLeft: "-0.4rem",
-                    color: "#292929",
-                  }}
-                />
-              )}
-            </div>
-            <div className="sidebar__userEmail">
-              <h3>
-                {_.truncate(personalUser.userName, {
-                  length: 27,
-                })}
-              </h3>
-              <p>
-                {_.truncate(personalUser.email, {
-                  length: 23,
-                })}
-              </p>
-            </div>
+      <div className="sidebar__container">
+        <div className="sidebar__userDetails">
+          <div className="sidebar__img">
+            {personalUser.pic ? (
+              <img src={personalUser.pic} alt="" />
+            ) : (
+              <AccountCircleIcon
+                style={{
+                  fontSize: "3.5rem",
+                  marginLeft: "-0.4rem",
+                  color: "#292929",
+                }}
+              />
+            )}
           </div>
+          <div className="sidebar__userEmail">
+            <h3>
+              {_.truncate(personalUser.userName, {
+                length: 27,
+              })}
+            </h3>
+            <p>
+              {_.truncate(personalUser.email, {
+                length: 23,
+              })}
+            </p>
+          </div>
+        </div>
 
-          <div
-            className="sidebar__circle"
-            style={handleStyle(personalUser.online)}
-          ></div>
-        </div>
-      ) : (
-        <div className="sidebar__container">
-          <Skeleton
-            variant="circular"
-            sx={{ bgcolor: "grey.900" }}
-            width={"3rem"}
-            height={"3rem"}
-          />
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              flex: 1,
-              marginLeft: "1.5rem",
-            }}
-          >
-            <Skeleton
-              variant="text"
-              sx={{ bgcolor: "grey.900", fontSize: "1rem" }}
-            />
-            <Skeleton
-              variant="text"
-              sx={{ bgcolor: "grey.900", fontSize: "1rem" }}
-            />
-          </div>
-        </div>
-      )}
+        <div
+          className="sidebar__circle"
+          style={handleStyle(personalUser.online)}
+        ></div>
+      </div>
       <hr />
 
       {/* online users */}

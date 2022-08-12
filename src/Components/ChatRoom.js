@@ -18,8 +18,9 @@ import { useValue } from "../App/StateProvider";
 import SidebarMobile from "./SidebarMobile";
 import PersonIcon from "@mui/icons-material/Person";
 import { useChat } from "../App/ChatProvider";
-import { Avatar, Backdrop, CircularProgress } from "@mui/material";
+import { Avatar, CircularProgress, Skeleton } from "@mui/material";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
+
 const ChatRoom = () => {
   //All the statfull components and refs are here
   const [user, setUser] = useState({});
@@ -27,14 +28,15 @@ const ChatRoom = () => {
   const [state] = useValue();
   const [chatState, chatDispatch] = useChat();
   const messageRef = useRef();
-  const [message, setMessage] = useState([]);
+  const [message, setMessage] = useState([{ message: false }]);
   //useEffect hook
   useEffect(() => {
     //chatPerson
+    setChatUser({ uid: null });
+    setMessage([{ message: false }]);
     console.log(chatState.uid);
-    let unsub1;
     if (chatState.uid) {
-      unsub1 = onSnapshot(doc(db, "users", chatState.uid), (result) => {
+      onSnapshot(doc(db, "users", chatState.uid), (result) => {
         if (result) {
           console.log(result.data());
           setChatUser(result.data());
@@ -59,15 +61,18 @@ const ChatRoom = () => {
     );
     const q = query(docRef, orderBy("createdAt"));
     const unsub3 = onSnapshot(q, (doc) => {
-      doc.forEach((item) => {
-        mssg.push({ ...item.data(), id: item.id });
-      });
-      setMessage(mssg);
-      mssg = [];
+      if (doc) {
+        doc.forEach((item) => {
+          mssg.push({ ...item.data(), id: item.id });
+        });
+        setMessage(mssg);
+        mssg = [];
+      }
+      if (doc.docs.length == 0) {
+        setMessage([{ message: true }]);
+      }
     });
-
     return () => {
-      unsub1();
       unsub2();
       unsub3();
     };
@@ -118,11 +123,27 @@ const ChatRoom = () => {
         <SidebarMobile />
         {chatState.uid ? (
           <div className="chatroom__chats">
-            <div className="chatroom__header">
-              <Avatar src={chatUser.pic} />
-              <h2>{chatUser.userName}</h2>
-            </div>
-            {message.length ? (
+            {chatUser.uid ? (
+              <div className="chatroom__header">
+                <Avatar src={chatUser.pic} />
+                <h2>{chatUser.userName}</h2>
+              </div>
+            ) : (
+              <div className="chatroom__header">
+                <Skeleton
+                  variant="circular"
+                  sx={{ bgcolor: "grey.900" }}
+                  width={"3rem"}
+                  height={"3rem"}
+                />
+                <Skeleton
+                  variant="text"
+                  width="8rem"
+                  sx={{ bgcolor: "grey.900" }}
+                />
+              </div>
+            )}
+            {message[0].message ? (
               <div className="chatroom__chatList">
                 {message?.map((item) => (
                   <ChatList
@@ -134,10 +155,14 @@ const ChatRoom = () => {
                 ))}
               </div>
             ) : (
-              <Backdrop sx={{ color: "#fff", zIndex: "200" }} open={true}>
+              <div
+                className="chatroom__chatList"
+                style={{ justifyContent: "center", alignItems: "center" }}
+              >
                 <CircularProgress color="inherit" />
-              </Backdrop>
+              </div>
             )}
+
             <div className="chatroom__controls">
               <form className="chatroom__form">
                 <div className="chatroom__personList">
