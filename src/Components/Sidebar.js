@@ -5,8 +5,6 @@ import { auth, db } from "../firebase";
 import _ from "lodash";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useChat } from "../App/ChatProvider";
-import { addChat } from "../App/features/chatAction";
-import { Badge, Skeleton } from "@mui/material";
 import SidebarUser from "./SidebarUser";
 
 const Sidebar = () => {

@@ -7,13 +7,11 @@ import {
   addDoc,
   collection,
   doc,
-  getDoc,
   onSnapshot,
   orderBy,
   query,
   setDoc,
   Timestamp,
-  updateDoc,
 } from "firebase/firestore";
 import { db } from "../firebase";
 import { useValue } from "../App/StateProvider";
@@ -30,7 +28,7 @@ const ChatRoom = () => {
   const [user, setUser] = useState({});
   const [chatUser, setChatUser] = useState({ uid: null });
   const [state] = useValue();
-  const [chatState, chatDispatch] = useChat();
+  const [chatState] = useChat();
   const messageRef = useRef();
   const [message, setMessage] = useState([{ message: false }]);
   //useEffect hook
@@ -66,7 +64,7 @@ const ChatRoom = () => {
       });
     }
     //message sender
-    const unsub2 = onSnapshot(doc(db, "users", state.uid), (result) => {
+    onSnapshot(doc(db, "users", state.uid), (result) => {
       if (result) {
         setUser(result.data());
       }
@@ -82,7 +80,7 @@ const ChatRoom = () => {
       "messages"
     );
     const q = query(docRef, orderBy("createdAt"));
-    const unsub3 = onSnapshot(q, (doc) => {
+    onSnapshot(q, (doc) => {
       if (doc) {
         doc.forEach((item) => {
           mssg.push({ ...item.data(), id: item.id });
@@ -90,16 +88,11 @@ const ChatRoom = () => {
         setMessage(mssg);
         mssg = [];
       }
-      if (doc.docs.length == 0) {
+      if (doc.docs.length === 0) {
         setMessage([{ message: true }]);
       }
     });
-
-    return () => {
-      unsub2();
-      unsub3();
-    };
-  }, [chatState.uid]);
+  }, [chatState.uid, state.uid]);
 
   useEffect(() => {
     const unreadRef = doc(
@@ -114,7 +107,7 @@ const ChatRoom = () => {
     setDoc(unreadRef, {
       count: unread,
     });
-  }, [unread]);
+  }, [unread, state.uid, chatState.uid]);
   //function to send the data on the firebase
   const handleSend = async (e) => {
     e.preventDefault();
