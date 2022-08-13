@@ -44,7 +44,7 @@ const ChatRoom = () => {
       state.uid
     );
 
-    onSnapshot(unreadRef, (result) => {
+    const unsub1 = onSnapshot(unreadRef, (result) => {
       if (result) {
         setUnread(result?.data().count);
       }
@@ -60,7 +60,7 @@ const ChatRoom = () => {
       });
     }
     //message sender
-    onSnapshot(doc(db, "users", state.uid), (result) => {
+    const unsub2 = onSnapshot(doc(db, "users", state.uid), (result) => {
       if (result) {
         setUser(result.data());
       }
@@ -76,7 +76,7 @@ const ChatRoom = () => {
       "messages"
     );
     const q = query(docRef, orderBy("createdAt"));
-    onSnapshot(q, (doc) => {
+    const unsub3 = onSnapshot(q, (doc) => {
       if (doc) {
         doc.forEach((item) => {
           mssg.push({ ...item.data(), id: item.id });
@@ -88,6 +88,12 @@ const ChatRoom = () => {
         setMessage([{ message: true }]);
       }
     });
+
+    return () => {
+      unsub1();
+      unsub2();
+      unsub3();
+    };
   }, [chatState.uid, state.uid]);
 
   useEffect(() => {
@@ -190,7 +196,7 @@ const ChatRoom = () => {
               <div className="chatroom__chatList">
                 {message?.map((item) => (
                   <ChatList
-                    key={item.id}
+                    key={Math.random()}
                     message={item.message}
                     uid={item.uid}
                     userName={item.userName}

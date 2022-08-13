@@ -11,6 +11,10 @@ function SidebarUser(props) {
   const [unread, setUnread] = useState(0);
   const [state] = useValue();
   useEffect(() => {
+    const audio = new Audio("./assests/notification.wav");
+    if (unread) {
+      audio.play();
+    }
     const unreadRef = doc(
       db,
       "userChat",
