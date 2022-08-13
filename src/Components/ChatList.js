@@ -32,7 +32,7 @@ const ChatList = ({ message, uid, userName }) => {
     return (
       <div>
         <h3 style={{ textAlign: "center" }}>
-          Send Message to start Conversation
+          Send a hi 👋 to start a conversation !!!
         </h3>
       </div>
     );
