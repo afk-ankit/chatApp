@@ -7,7 +7,6 @@ const ChatList = ({ message, uid, userName }) => {
     scrollRef?.current?.scrollIntoView({
       behaviour: "smooth",
     });
-    console.log(message);
   }, []);
 
   const setClass = (uid) => {

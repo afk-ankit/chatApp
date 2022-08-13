@@ -11,7 +11,9 @@ import {
   onSnapshot,
   orderBy,
   query,
+  setDoc,
   Timestamp,
+  updateDoc,
 } from "firebase/firestore";
 import { db } from "../firebase";
 import { useValue } from "../App/StateProvider";
@@ -20,9 +22,11 @@ import PersonIcon from "@mui/icons-material/Person";
 import { useChat } from "../App/ChatProvider";
 import { Avatar, CircularProgress, Skeleton } from "@mui/material";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
+import toast from "react-hot-toast";
 
 const ChatRoom = () => {
   //All the statfull components and refs are here
+  const [unread, setUnread] = useState(0);
   const [user, setUser] = useState({});
   const [chatUser, setChatUser] = useState({ uid: null });
   const [state] = useValue();
@@ -31,6 +35,24 @@ const ChatRoom = () => {
   const [message, setMessage] = useState([{ message: false }]);
   //useEffect hook
   useEffect(() => {
+    //unread message
+    const unreadRef = doc(
+      db,
+      "userChat",
+      chatState?.uid > state.uid
+        ? `${chatState?.uid}${state.uid}`
+        : `${state.uid}${chatState?.uid}`,
+      "unread",
+      state.uid
+    );
+
+    onSnapshot(unreadRef, (result) => {
+      if (result) {
+        console.log("on chatroom fetching the no. of message send by me now");
+        console.log(result?.data().count);
+        setUnread(result?.data().count);
+      }
+    });
     //chatPerson
     setChatUser({ uid: null });
     setMessage([{ message: false }]);
@@ -90,6 +112,15 @@ const ChatRoom = () => {
         : `${state.uid}${chatState.uid}`,
       "messages"
     );
+    const unreadRef = doc(
+      db,
+      "userChat",
+      chatState.uid > state.uid
+        ? `${chatState.uid}${state.uid}`
+        : `${state.uid}${chatState.uid}`,
+      "unread",
+      state.uid
+    );
     const message = messageRef.current.value;
     messageRef.current.value = null;
     const addMess = () => {
@@ -104,6 +135,10 @@ const ChatRoom = () => {
       if (message != "") {
         audio.play();
         const doc = await addDoc(docRef, addMess());
+        setUnread(unread + 1);
+        await setDoc(unreadRef, {
+          count: unread,
+        });
       }
     } catch (error) {
       alert(error.message);

@@ -1,21 +1,59 @@
 import { Badge } from "@mui/material";
-import { useChat } from "../App/ChatProvider";
 import { addChat } from "../App/features/chatAction";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import _ from "lodash";
+import { useEffect, useState } from "react";
+import { doc, onSnapshot, updateDoc } from "firebase/firestore";
+import { db } from "../firebase";
+import { useValue } from "../App/StateProvider";
 
 function SidebarUser(props) {
+  const [unread, setUnread] = useState(0);
+  const [state] = useValue();
+  useEffect(() => {
+    const unreadRef = doc(
+      db,
+      "userChat",
+      props.item.uid > state.uid
+        ? `${props.item.uid}${state.uid}`
+        : `${state.uid}${props.item.uid}`,
+      "unread",
+      props.item.uid
+    );
+    onSnapshot(unreadRef, (data) => {
+      console.log("I am " + props.item.userName);
+      console.log(data.data()?.count);
+      setUnread(data.data()?.count);
+    });
+  }, []);
   return (
     <div
       onClick={() => {
         props.dispatch(addChat(props.item));
+        const unreadOtherRef = doc(
+          db,
+          "userChat",
+          props.item?.uid > state.uid
+            ? `${props.item?.uid}${state.uid}`
+            : `${state.uid}${props.item?.uid}`,
+          "unread",
+          props.item?.uid
+        );
+
+        onSnapshot(unreadOtherRef, (result) => {
+          if (result) {
+            updateDoc(unreadOtherRef, {
+              count: 0,
+            });
+          }
+        });
       }}
     >
       <div className="sidebar__container">
         <div className="sidebar__userDetails">
           <div className="sidebar__img">
             <Badge
-              badgeContent={69}
+              badgeContent={unread}
               max={50}
               overlap="circular"
               color="success"
