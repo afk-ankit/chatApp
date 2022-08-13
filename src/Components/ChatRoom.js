@@ -7,7 +7,6 @@ import {
   addDoc,
   collection,
   doc,
-  getDoc,
   onSnapshot,
   orderBy,
   query,
@@ -103,10 +102,6 @@ const ChatRoom = () => {
         chatState.uid
       );
 
-      getDoc(userRef).then((result) => {
-        console.log("result", result.data());
-      });
-
       setDoc(userRef, {
         count: 0,
       });
@@ -152,8 +147,6 @@ const ChatRoom = () => {
         setUnread((prev) => prev + 1);
         await addDoc(docRef, addMess());
         audio.play();
-
-        toast.success("count updated successfully");
       }
     } catch (error) {
       alert(error.message);
@@ -201,6 +194,7 @@ const ChatRoom = () => {
                     message={item.message}
                     uid={item.uid}
                     userName={item.userName}
+                    createdAt={item.createdAt}
                   />
                 ))}
               </div>

@@ -1,7 +1,9 @@
 import { useEffect, useRef } from "react";
 import "../Css/ChatList.css";
 import { auth } from "../firebase";
-const ChatList = ({ message, uid, userName }) => {
+import Moment from "react-moment";
+
+const ChatList = ({ message, uid, userName, createdAt }) => {
   const scrollRef = useRef();
   useEffect(() => {
     scrollRef?.current?.scrollIntoView({
@@ -40,6 +42,9 @@ const ChatList = ({ message, uid, userName }) => {
       <div className="chatList" style={setClass(uid)}>
         <h3 style={setStyle(uid)}>{userName}</h3>
         {message}
+        <h4 style={{ display: "block" }}>
+          <Moment fromNow>{createdAt.toDate()}</Moment>
+        </h4>
         <div ref={scrollRef}></div>
       </div>
     );
