@@ -23,7 +23,7 @@ function SidebarUser(props) {
     onSnapshot(unreadRef, (data) => {
       setUnread(data.data()?.count);
     });
-  }, []);
+  }, [unread]);
   return (
     <div
       onClick={() => {

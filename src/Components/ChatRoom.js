@@ -7,6 +7,7 @@ import {
   addDoc,
   collection,
   doc,
+  getDoc,
   onSnapshot,
   orderBy,
   query,
@@ -46,19 +47,15 @@ const ChatRoom = () => {
 
     onSnapshot(unreadRef, (result) => {
       if (result) {
-        console.log("on chatroom fetching the no. of message send by me now");
-        console.log(result?.data().count);
         setUnread(result?.data().count);
       }
     });
     //chatPerson
     setChatUser({ uid: null });
     setMessage([{ message: false }]);
-    console.log(chatState.uid);
     if (chatState.uid) {
       onSnapshot(doc(db, "users", chatState.uid), (result) => {
         if (result) {
-          console.log(result.data());
           setChatUser(result.data());
         }
       });
@@ -95,6 +92,25 @@ const ChatRoom = () => {
   }, [chatState.uid, state.uid]);
 
   useEffect(() => {
+    if (chatState.uid) {
+      const userRef = doc(
+        db,
+        "userChat",
+        chatState?.uid > state.uid
+          ? `${chatState?.uid}${state.uid}`
+          : `${state.uid}${chatState?.uid}`,
+        "unread",
+        chatState.uid
+      );
+
+      getDoc(userRef).then((result) => {
+        console.log("result", result.data());
+      });
+
+      setDoc(userRef, {
+        count: 0,
+      });
+    }
     const unreadRef = doc(
       db,
       "userChat",
@@ -107,7 +123,7 @@ const ChatRoom = () => {
     setDoc(unreadRef, {
       count: unread,
     });
-  }, [unread, state.uid, chatState.uid]);
+  }, [unread, state.uid, chatState.uid, message]);
   //function to send the data on the firebase
   const handleSend = async (e) => {
     e.preventDefault();
