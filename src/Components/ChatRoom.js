@@ -94,12 +94,27 @@ const ChatRoom = () => {
         setMessage([{ message: true }]);
       }
     });
+
     return () => {
       unsub2();
       unsub3();
     };
   }, [chatState.uid]);
 
+  useEffect(() => {
+    const unreadRef = doc(
+      db,
+      "userChat",
+      chatState?.uid > state.uid
+        ? `${chatState?.uid}${state.uid}`
+        : `${state.uid}${chatState?.uid}`,
+      "unread",
+      state.uid
+    );
+    setDoc(unreadRef, {
+      count: unread,
+    });
+  }, [unread]);
   //function to send the data on the firebase
   const handleSend = async (e) => {
     e.preventDefault();
@@ -112,15 +127,7 @@ const ChatRoom = () => {
         : `${state.uid}${chatState.uid}`,
       "messages"
     );
-    const unreadRef = doc(
-      db,
-      "userChat",
-      chatState.uid > state.uid
-        ? `${chatState.uid}${state.uid}`
-        : `${state.uid}${chatState.uid}`,
-      "unread",
-      state.uid
-    );
+
     const message = messageRef.current.value;
     messageRef.current.value = null;
     const addMess = () => {
@@ -132,13 +139,12 @@ const ChatRoom = () => {
       };
     };
     try {
-      if (message != "") {
+      if (message !== "") {
+        setUnread((prev) => prev + 1);
+        await addDoc(docRef, addMess());
         audio.play();
-        const doc = await addDoc(docRef, addMess());
-        setUnread(unread + 1);
-        await setDoc(unreadRef, {
-          count: unread,
-        });
+
+        toast.success("count updated successfully");
       }
     } catch (error) {
       alert(error.message);

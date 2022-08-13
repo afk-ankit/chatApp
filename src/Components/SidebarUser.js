@@ -21,8 +21,6 @@ function SidebarUser(props) {
       props.item.uid
     );
     onSnapshot(unreadRef, (data) => {
-      console.log("I am " + props.item.userName);
-      console.log(data.data()?.count);
       setUnread(data.data()?.count);
     });
   }, []);
@@ -40,12 +38,8 @@ function SidebarUser(props) {
           props.item?.uid
         );
 
-        onSnapshot(unreadOtherRef, (result) => {
-          if (result) {
-            updateDoc(unreadOtherRef, {
-              count: 0,
-            });
-          }
+        updateDoc(unreadOtherRef, {
+          count: 0,
         });
       }}
     >
