@@ -6,7 +6,8 @@ import _ from "lodash";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useChat } from "../App/ChatProvider";
 import { addChat } from "../App/features/chatAction";
-import { Skeleton } from "@mui/material";
+import { Badge, Skeleton } from "@mui/material";
+import SidebarUser from "./SidebarUser";
 
 const Sidebar = () => {
   const [personalUser, setPersonalUser] = useState({});
@@ -105,47 +106,12 @@ const Sidebar = () => {
       <h2>Online Users</h2>
       {onlineUser.length ? (
         onlineUser?.map((item) => (
-          <div
+          <SidebarUser
             key={item?.uid}
-            onClick={() => {
-              dispatch(addChat(item));
-            }}
-          >
-            <div className="sidebar__container">
-              <div className="sidebar__userDetails">
-                <div className="sidebar__img">
-                  {item?.pic ? (
-                    <img src={item?.pic} alt="" />
-                  ) : (
-                    <AccountCircleIcon
-                      style={{
-                        fontSize: "3.5rem",
-                        marginLeft: "-0.4rem",
-                        color: "#292929",
-                      }}
-                    />
-                  )}
-                </div>
-                <div className="sidebar__userEmail">
-                  <h3>
-                    {_.truncate(item?.userName, {
-                      length: 27,
-                    })}
-                  </h3>
-                  <p>
-                    {_.truncate(item?.email, {
-                      length: 23,
-                    })}
-                  </p>
-                </div>
-              </div>
-
-              <div
-                className="sidebar__circle"
-                style={handleStyle(item?.online)}
-              ></div>
-            </div>
-          </div>
+            dispatch={dispatch}
+            handleStyle={handleStyle}
+            item={item}
+          ></SidebarUser>
         ))
       ) : (
         <div className="sidebar__unfound">
@@ -158,47 +124,12 @@ const Sidebar = () => {
       <h2>Offline Users</h2>
       {user.length ? (
         user?.map((item) => (
-          <div
+          <SidebarUser
             key={item?.uid}
-            onClick={() => {
-              dispatch(addChat(item));
-            }}
-          >
-            <div className="sidebar__container">
-              <div className="sidebar__userDetails">
-                <div className="sidebar__img">
-                  {item?.pic ? (
-                    <img src={item?.pic} alt="" />
-                  ) : (
-                    <AccountCircleIcon
-                      style={{
-                        fontSize: "3.5rem",
-                        marginLeft: "-0.4rem",
-                        color: "#292929",
-                      }}
-                    />
-                  )}
-                </div>
-                <div className="sidebar__userEmail">
-                  <h3>
-                    {_.truncate(item?.userName, {
-                      length: 27,
-                    })}
-                  </h3>
-                  <p>
-                    {_.truncate(item?.email, {
-                      length: 23,
-                    })}
-                  </p>
-                </div>
-              </div>
-
-              <div
-                className="sidebar__circle"
-                style={handleStyle(item?.online)}
-              ></div>
-            </div>
-          </div>
+            dispatch={dispatch}
+            handleStyle={handleStyle}
+            item={item}
+          ></SidebarUser>
         ))
       ) : (
         <div className="sidebar__unfound">

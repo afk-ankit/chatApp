@@ -21,7 +21,12 @@
 }
 
 .sidebar__img > img{
-  
+    object-fit: cover;
+    height: 3rem;
+    width: 3rem;
+    border-radius: 100%;
+}
+.sidebar__img__badge > img{
     object-fit: cover;
     height: 3rem;
     width: 3rem;
