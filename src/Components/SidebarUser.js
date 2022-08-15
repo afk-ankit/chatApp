@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { doc, onSnapshot, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import { useValue } from "../App/StateProvider";
+import toast from "react-hot-toast";
 
 function SidebarUser(props) {
   const [unread, setUnread] = useState(0);
@@ -13,6 +14,10 @@ function SidebarUser(props) {
   useEffect(() => {
     const audio = new Audio("./assests/notification.wav");
     if (unread) {
+      toast(`New message from ${props.item.userName}`, {
+        duration: 1500,
+        icon: "👋",
+      });
       audio.play();
     }
     const unreadRef = doc(
@@ -24,9 +29,11 @@ function SidebarUser(props) {
       "unread",
       props.item.uid
     );
-    onSnapshot(unreadRef, (data) => {
+    const unsub = onSnapshot(unreadRef, (data) => {
       setUnread(data.data()?.count);
     });
+
+    return () => unsub();
   }, [unread]);
   return (
     <div
