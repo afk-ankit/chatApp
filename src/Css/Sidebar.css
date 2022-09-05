@@ -134,7 +134,7 @@
     height: 2.5rem;
    }
    .sidebar__container{
-    padding: 0.6rem 0.6rem;
+    padding: 1rem 1.2rem;
    }
    .sidebar::-webkit-scrollbar{
     display: none;

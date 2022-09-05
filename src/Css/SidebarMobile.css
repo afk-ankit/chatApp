@@ -2,7 +2,6 @@
 .sidebarMobile{
     display: none;
     background-color: black;
-    /* border:2px solid red */
 }
 
 @media screen and (max-width:426px) {

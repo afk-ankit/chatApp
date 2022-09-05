@@ -1,14 +1,14 @@
-import { Badge } from "@mui/material";
 import { addChat } from "../App/features/chatAction";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import _ from "lodash";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useEffect, useState } from "react";
-import { doc, onSnapshot, updateDoc } from "firebase/firestore";
+import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../firebase";
 import { useValue } from "../App/StateProvider";
 import toast from "react-hot-toast";
+import { Badge } from "@mui/material";
 
-function SidebarUser(props) {
+function SidebarUserMobile(props) {
   const [unread, setUnread] = useState(0);
   const [state] = useValue();
   useEffect(() => {
@@ -36,23 +36,12 @@ function SidebarUser(props) {
 
     return () => unsub();
   }, [unread, props.item.uid, props.item.userName, state.uid]);
+
   return (
     <div
       onClick={() => {
         props.dispatch(addChat(props.item));
-        const unreadOtherRef = doc(
-          db,
-          "userChat",
-          props.item?.uid > state.uid
-            ? `${props.item?.uid}${state.uid}`
-            : `${state.uid}${props.item?.uid}`,
-          "unread",
-          props.item?.uid
-        );
-
-        updateDoc(unreadOtherRef, {
-          count: 0,
-        });
+        props.sidebarToggle();
       }}
     >
       <div className="sidebar__container">
@@ -81,12 +70,12 @@ function SidebarUser(props) {
           <div className="sidebar__userEmail">
             <h3>
               {_.truncate(props.item?.userName, {
-                length: 27,
+                length: 18,
               })}
             </h3>
             <p>
               {_.truncate(props.item?.email, {
-                length: 23,
+                length: 15,
               })}
             </p>
           </div>
@@ -100,5 +89,4 @@ function SidebarUser(props) {
     </div>
   );
 }
-
-export default SidebarUser;
+export default SidebarUserMobile;

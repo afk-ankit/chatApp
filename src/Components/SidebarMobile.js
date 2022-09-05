@@ -7,6 +7,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useChat } from "../App/ChatProvider";
 import { addChat } from "../App/features/chatAction";
+import SidebarUserMobile from "./SidebarUserMobile";
 
 const SidebarMobile = () => {
   const [personalUser, setPersonalUser] = useState({});
@@ -117,48 +118,13 @@ const SidebarMobile = () => {
         <h2>Online Users</h2>
         {onlineUser.length ? (
           onlineUser?.map((item) => (
-            <div
+            <SidebarUserMobile
               key={item?.uid}
-              onClick={() => {
-                dispatch(addChat(item));
-                sidebarToggle();
-              }}
-            >
-              <div className="sidebar__container">
-                <div className="sidebar__userDetails">
-                  <div className="sidebar__img">
-                    {item?.pic ? (
-                      <img src={item?.pic} alt="" />
-                    ) : (
-                      <AccountCircleIcon
-                        style={{
-                          fontSize: "3.5rem",
-                          marginLeft: "-0.4rem",
-                          color: "#292929",
-                        }}
-                      />
-                    )}
-                  </div>
-                  <div className="sidebar__userEmail">
-                    <h3>
-                      {_.truncate(item?.userName, {
-                        length: 18,
-                      })}
-                    </h3>
-                    <p>
-                      {_.truncate(item?.email, {
-                        length: 19,
-                      })}
-                    </p>
-                  </div>
-                </div>
-
-                <div
-                  className="sidebar__circle"
-                  style={handleStyle(item?.online)}
-                ></div>
-              </div>
-            </div>
+              dispatch={dispatch}
+              handleStyle={handleStyle}
+              sidebarToggle={sidebarToggle}
+              item={item}
+            ></SidebarUserMobile>
           ))
         ) : (
           <div className="sidebar__unfound">
@@ -171,48 +137,13 @@ const SidebarMobile = () => {
         <h2>Offline Users</h2>
         {user.length ? (
           user?.map((item) => (
-            <div
+            <SidebarUserMobile
               key={item?.uid}
-              onClick={() => {
-                dispatch(addChat(item));
-                sidebarToggle();
-              }}
-            >
-              <div className="sidebar__container">
-                <div className="sidebar__userDetails">
-                  <div className="sidebar__img">
-                    {item?.pic ? (
-                      <img src={item?.pic} alt="" />
-                    ) : (
-                      <AccountCircleIcon
-                        style={{
-                          fontSize: "3.5rem",
-                          marginLeft: "-0.4rem",
-                          color: "#292929",
-                        }}
-                      />
-                    )}
-                  </div>
-                  <div className="sidebar__userEmail">
-                    <h3>
-                      {_.truncate(item?.userName, {
-                        length: 18,
-                      })}
-                    </h3>
-                    <p>
-                      {_.truncate(item?.email, {
-                        length: 19,
-                      })}
-                    </p>
-                  </div>
-                </div>
-
-                <div
-                  className="sidebar__circle"
-                  style={handleStyle(item?.online)}
-                ></div>
-              </div>
-            </div>
+              dispatch={dispatch}
+              handleStyle={handleStyle}
+              sidebarToggle={sidebarToggle}
+              item={item}
+            ></SidebarUserMobile>
           ))
         ) : (
           <div className="sidebar__unfound">

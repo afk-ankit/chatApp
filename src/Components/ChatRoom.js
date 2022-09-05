@@ -175,7 +175,7 @@ const ChatRoom = () => {
             {chatUser.uid ? (
               <div className="chatroom__header">
                 <Avatar src={chatUser.pic} />
-                <h2>{chatUser.userName}</h2>
+                <h2>{chatUser.userName ? chatUser.userName : "Unknown"}</h2>
               </div>
             ) : (
               <div className="chatroom__header">
